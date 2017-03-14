@@ -6,10 +6,16 @@
 
 <struts>
     <package name="blog" namespace="/" extends="struts-default" >
-        <action name="blog_*" class="com.blog.sys.action.BlogAction" method="{1}">
+        <action name="blog_userLogin" class="com.blog.sys.action.BlogAction" method="userLogin">
             <result name="success" >WEB-INF/pages/user/user.jsp</result>
-            <result name="error" type="redirect">/login.jsp</result>
+            <result name="error" type="redirect">
+                <param name="location">/login.jsp</param>
+            </result>
             <!--<result name="error_password">../web/WEB-INF/login.jsp</result>-->
+        </action>
+        <action name="blog_tosave" class="com.blog.sys.action.BlogAction" method="tosave">
+            <result name="error" type="redirect">/register.jsp</result>
+            <result name="success" type="redirect">/index.jsp</result>
         </action>
     </package>
     <package name="checkIdCode" namespace="/check" extends="struts-default">

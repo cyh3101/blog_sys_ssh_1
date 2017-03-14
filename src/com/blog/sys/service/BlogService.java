@@ -4,10 +4,6 @@ import com.blog.sys.dao.BlogDao;
 import com.blog.sys.entity.User;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * Created by paddy on 2017/3/12.
  */
@@ -20,34 +16,48 @@ public class BlogService {
 		this.blogDao = blogDao;
 	}
 	
-	public void query(){
-		blogDao.queryUsers ();
-	}
-	
-	public void findAllUser(){
-		List<User> users = blogDao.findAllUser ();
-		if (users != null) {
-			for (User user : users) {
-				System.out.println (user.toString () );
-			}
+
+	//检测用户是否存在
+	public String checkUserExist(String userName){
+		switch (blogDao.checkUserExist (userName)) {
+			case "Exist":
+				return "Exist";
+			case "None":
+				return "None";
+			default:
+				return "Error";
 		}
 	}
 	
-	public boolean checkUserExit(User user){
-		Map<String, Object> map = new HashMap<String, Object> ();
-		map.put ("userName",user.getUserName ());
-		List<User> users = blogDao.checkUserExist (map);
-		if (user == null) {
-			return false;
-		} else {
-			if (user.getPassword ().equals (users.get (0).getPassword ()))
-				return true;
-			else
-				return false;
+	public String save(User user){
+		switch (checkUserExist (user.getUserName ( ))) {
+			case "Exist":
+				return "Exist";
+			case "None":
+				blogDao.save (user);
+				return "Success";
+			default:
+				return "Error";
 		}
 	}
 	
-	public void save(User user){
-		blogDao.save (user);
+	//返回Correct为密码正确
+	//返回Error为密码错误
+	//返回None为没有该用户
+	public String checkPassword (String userName, String password) {
+		User user = new User ( );
+		user.setPassword (password);
+		user.setUserName (userName);
+		switch (blogDao.checkPassword (user)) {
+			case "Correct":
+				return "Correct";
+			case "Error":
+				return "Error";
+			case "None":
+				return "None";
+			default:return "None";
+		}
 	}
+	
+	
 }
