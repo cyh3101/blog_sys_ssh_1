@@ -7,3 +7,7 @@
 *.iml
 out
 gen
+.gitignore
+.idea/
+blog_sys_ssh_1.iml
+out/
