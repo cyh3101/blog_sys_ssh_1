@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ page import="com.opensymphony.xwork2.ActionContext" %>
 <html>
 <head>
     <title>注册</title>
@@ -26,7 +28,16 @@
     <tr>
         <tb><input type="submit" value="确认"/></tb>
     </tr><br>
-    ${errorMsgRegister}
+    <%--${errorMsgRegister}--%>
+    <span>
+        <%
+            String msg =(String) ActionContext.getContext ().getSession ().get ("errorMsgRegister");
+            if (msg != null) {
+                session.putValue ("errorMsgRegister", null);
+                out.println(msg);
+            }
+        %>
+    </span>
 </form>
 </body>
 </html>

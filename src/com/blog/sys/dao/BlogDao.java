@@ -30,8 +30,11 @@ public class BlogDao extends HibernateDaoSupport {
 		hql.append ("where userName='" + userName + "' ");
 		try {
 			List<User> users = this.getHibernateTemplate ( ).find (hql.toString ( ));
-			if (users!=null)
+			if (users!=null||users.get (0)!=null) {
+				System.out.println (users.get (0).getUserName () + " " + users.get (0).getPassword () );
+				System.out.println ("用户已存在" );
 				return "Exist";
+			}
 			else
 				return "None";
 		} catch (Exception e) {
@@ -52,6 +55,7 @@ public class BlogDao extends HibernateDaoSupport {
 	//返回None为没有该用户
 	public String checkPassword(User user){
 		StringBuilder hql = new StringBuilder ( );
+		System.out.println (user.getPassword () );
 		hql.append ("from User ");
 		hql.append ("where userName='" + user.getUserName ( ) + "' ");
 		try {
@@ -59,6 +63,7 @@ public class BlogDao extends HibernateDaoSupport {
 			if (users.get (0).getPassword ( ).equals (user.getPassword ( ))) {
 				return "Correct";//
 			} else {
+				System.out.println (users.get (0).getPassword () );
 				return "Error";
 			}
 		}catch (Exception e){

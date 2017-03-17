@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.opensymphony.xwork2.ActionContext" %><%--
   Created by IntelliJ IDEA.
   User: paddy
   Date: 2017/3/13
@@ -35,7 +35,16 @@
         <tb><img id="check_Code" src="/check/IdCode_getCode.do" width="90" height="30" style="margin-left: 10px"/></tb>
         <tb><a href="" onclick="myReload()">看不清</a></tb>
     </tr><br>
-    <span>${errorMsg}</span>
+    <span>
+    <%--${errorMsg}--%>
+        <%
+            String msg =(String) ActionContext.getContext ().getSession ().get ("errorMsg");
+            if (msg != null) {
+            	session.putValue ("errorMsg", null);
+            	out.println(msg);
+            }
+        %>
+    </span>
     <tr>
         <tb><input type="submit" value="确认"/></tb>
     </tr>
